@@ -1,6 +1,6 @@
-Maurice:
+Bambino:
   events:
-  - date: '1993-08-11'
+  - date: '2000-01-01'
     name: birthday
   notes: ''
   ping_freq: 365
