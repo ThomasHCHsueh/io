@@ -12,5 +12,5 @@
 2. Add contact > **io addp "Mr. Donut" 30 "2020-12-16"** (meaning: I want to ping Mr. Donut every 30 days; 2020/12/16 was the last time I pinged him)
 
 ## Note
-1. you can always see help messages for each command available by appending **-h**. For example, try > **io addp -h**
+1. You can always see help messages for each command available by appending **-h**. For example, try > **io addp -h**
 2. View and modify *people.yaml* and *stuff.yaml* directly if/when you need to e.g. when adding special annual event dates for contacts.
