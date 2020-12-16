@@ -5,13 +5,13 @@ import argparse
 from util import *
 from util2 import *
 
-with open(r'/Users/thomashsueh/Dev/pro/people.yaml') as file:
-    people = yaml.load(file, Loader=yaml.FullLoader) # FullLoader converts yaml scalar values to Python dictionaries
-with open(r'/Users/thomashsueh/Dev/pro/stuff.yaml') as file:
-    stuff = yaml.load(file, Loader=yaml.FullLoader) # FullLoader converts yaml scalar values to Python dictionaries
+## paths to the yaml files
+stuff_path  = '/Users/thomashsueh/Dev/io/stuff.yaml'
+people_path = '/Users/thomashsueh/Dev/io/people.yaml'
+
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="<< pro: the ultimate productivity tool for Thomas >>")
+    parser = argparse.ArgumentParser(description="<< io: the ultimate productivity tool >>")
 
     ### stuff's parsers
     ss = parser.add_subparsers(dest='mode')
@@ -48,7 +48,7 @@ def parse_args():
     return parser.parse_args()
 
 def main():
-    stuff  = StuffDB ('/Users/thomashsueh/Dev/pro/stuff.yaml', '/Users/thomashsueh/Dev/pro/people.yaml')
+    stuff  = StuffDB (stuff_path, people_path)
     
     args = parse_args()
     
