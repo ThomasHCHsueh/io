@@ -1,7 +1,7 @@
 import yaml
 import random
 from datetime import datetime, date
-from util2 import *
+from util_people import *
 import arrow
 
 class StuffDB:

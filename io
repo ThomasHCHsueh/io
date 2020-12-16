@@ -2,8 +2,8 @@
 import sys
 import yaml
 import argparse
-from util import *
-from util2 import *
+from util_stuff import *
+from util_people import *
 
 ## paths to the yaml files
 stuff_path  = '/Users/thomashsueh/Dev/io/stuff.yaml'
