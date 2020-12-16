@@ -26,7 +26,6 @@ def parse_args():
     nxt_parser.add_argument('avail', help='available time for the next task', type=int)
     
     ls_parser.add_argument ('--la',  action='store_true', help='list all tasks')
-    ls_parser.add_argument ('--laa', action='store_true', help='list all tasks including "completed" and "deleted"')
     ls_parser.add_argument ('--a',   action='store_true', help='list all "appointment"')
     ls_parser.add_argument ('--t',   action='store_true', help='list all "today"')
     ls_parser.add_argument ('--g',   action='store_true', help='list all "growth"')
@@ -37,10 +36,12 @@ def parse_args():
     
     done_parser.add_argument('done_idx_s', help='index of task that is completed', type=str, nargs='+')
     
-    add_parser.add_argument('new_task_type', help='type of the new task', type=str)
+    add_parser.add_argument('new_task_type', help='type of the new task; valid type from {a, fa, t, g}', type=str)
     add_parser.add_argument('new_task_name', help='name of the new task', type=str)
     add_parser.add_argument('new_task_time', help='time required to complete the new task', type=str)
-    
+    add_parser.add_argument("-when", help="specifiy YYYY-MM-DD of future appointment",
+                            default="NA", type=str)
+
     addp_parser.add_argument('addp_name', help='name of the new contact', type=str)
     addp_parser.add_argument('addp_ping_freq', help='how many days between pings', type=int)
     addp_parser.add_argument('addp_ping_last', help='last date of ping; format=YYYY-MM-DD', type=str)
@@ -55,13 +56,11 @@ def main():
     if args.mode == 'nxt':
         stuff.nxt(args.avail)
     elif args.mode == 'ls':
-        ## scan people database and generate new appointments for today
-        stuff.sync_people()            
+        ## scan people database and task database (fore future appt) and generate new appointments for today
+        stuff.sync()            
 
         if args.la:
             stuff.print_la()
-        elif args.laa:
-            stuff.print_laa()
         elif args.a:
             stuff.print_('appointment')
         elif args.t:
@@ -79,7 +78,7 @@ def main():
     elif args.mode == 'done':
         stuff.done(args.done_idx_s)
     elif args.mode == 'add':
-        stuff.add(args.new_task_type, args.new_task_name, args.new_task_time)
+        stuff.add(args.new_task_type, args.new_task_name, args.new_task_time, args.when)
 
     elif args.mode == 'lp':
         stuff.lp()

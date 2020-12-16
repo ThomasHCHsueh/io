@@ -36,8 +36,14 @@ class StuffDB:
             print(f"> Please complete {bcolors.GREEN}{chosen['name']}{bcolors.ENDC} in {bcolors.GREEN}{chosen['time']}{bcolors.ENDC} minutes.")
 
 
-    def add(self, typ, name, time):
+    def add(self, typ, name, time, when):
         new_task = {'index':'x', 'name':name, 'time':time}
+        if typ == 'fa':
+            if when == "NA":
+                print("> don't forget to specify when the future appointment is")
+                return
+            new_task['when'] = when
+            self.db["future_appointment"].append(new_task)
         if typ == 'a':
             self.db["appointment"].append(new_task)
         elif typ == 't':
@@ -74,16 +80,11 @@ class StuffDB:
                 self.printTable(section)
         print()
     
-    def print_laa(self):
-        for section in self.sections:
-            self.printTable(section)
-        print()
-    
-    def print_(self, section):
+    def __print_(self, section):
         printTable(section)
         print()
 
-    def print(self):
+    def __print(self):
         print()
         print(self.db)
 
@@ -120,8 +121,16 @@ class StuffDB:
         with open(self.yaml_file_people, 'w') as file:
                 documents = yaml.dump(self.people, file)
 
-    def sync_people(self):
+    def sync(self):
         today = arrow.get(date.today())
+        
+        ## SYNC STUFF FOR FUTURE APPT
+        for i, fa in enumerate(self.db["future_appointment"]):
+            if today == arrow.get(fa["when"]):
+                self.add('a', fa['name'], fa['time'], "NA")
+                del self.db["future_appointment"][i]
+                
+        ## SCAN PEOPLE FOR APPT 
         names = []
         names_type = []
         for name in self.people:
@@ -157,8 +166,8 @@ class StuffDB:
                 p["ping_last"] = str(date.today())
                 self.people[name] = p
         
-            ## update databases
-            self.update()
+        ## update databases
+        self.update()
         
     def lp(self):
         names = [n for n in self.people]
