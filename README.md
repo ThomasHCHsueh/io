@@ -2,10 +2,11 @@
 ## usage for task management
 1. List all tasks > **io ls**
 2. Add appointment > **io add a "Dentist at 8pm" 60** (60 means the appointment will take 60 minutes)
-3. Add task (Q1) for today > **io add t "Reply partner's email" 5**
-4. Add growth (Q2) > **io add g "Finish first chapter of 7 Habits" 30**
-5. Complete task > **io done t1** (use index of the task as shown by **io ls**)
-6. Ask for a task without revealing the whole task list > **io nxt 10** (meaning: I have 10 minutes available now; give me a task to work on)
+3. Add future appointment > **io add fa "Merry Christmas to buddy" 10 -when "2020-12-24"**
+4. Add task (Q1) for today > **io add t "Reply partner's email" 5**
+5. Add growth (Q2) > **io add g "Finish first chapter of 7 Habits" 30**
+6. Complete task > **io done t1** (use index of the task as shown by **io ls**)
+7. Ask for a task without revealing the whole task list > **io nxt 10** (meaning: I have 10 minutes available now; give me a task to work on)
 
 ## usage for contact management
 1. List all people > **io lp**
