@@ -1,0 +1,7 @@
+Maurice:
+  events:
+  - date: '1993-08-11'
+    name: birthday
+  notes: ''
+  ping_freq: 365
+  ping_last: '2020-12-15'
