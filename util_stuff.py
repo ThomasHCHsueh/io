@@ -5,7 +5,10 @@ from util_people import *
 import arrow
 
 class StuffDB:
-    def __init__(self, yaml_file_stuff, yaml_file_people):
+    def __init__(self, yaml_file_stuff, yaml_file_people, config):
+        if "show_done" not  in config:
+            config["show_done"] = False
+        self.config = config
         self.yaml_file_stuff = yaml_file_stuff
         self.yaml_file_people = yaml_file_people
         self.sections = ['appointment', 'today', 'growth', 'done', 'deleted']
@@ -51,34 +54,54 @@ class StuffDB:
         elif typ == 'g':
             self.db["growth"].append(new_task)
         self.update()
+    
+    def _map(self, c):
+        if   c == 'a': return "appointment"
+        elif c == 't': return "today"
+        elif c == 'g': return "growth"
+        elif c == 'd': return "done"
 
     def done(self, idx_s):
         for idx in idx_s:
-            if idx[0] == 'a':
-                self._move("done", idx, "appointment")
-            elif idx[0] == 't':
-                self._move("done", idx, "today")
-            elif idx[0] == 'g':
-                self._move("done", idx, "growth")
+            self._move("done", idx, self._map(idx[0]))
         self.update()
     
-    def _move(self, dest, idx, section):
+    def _find(self, idx, section):
         j = None
         for i in range(len(self.db[section])):
             if self.db[section][i]['index'] == idx:
                 j = i
                 break
+        return j
+
+    def _move(self, dest, idx, section):
+        j = self._find(idx, section)
         if j is None:
             print("> No such task index.")
         else:
             self.db[dest].append(self.db[section][j])
-            print(f"> Moving {bcolors.GREEN}{self.db[section][j]['name']}{bcolors.ENDC} to {bcolors.GREEN}{dest}{bcolors.ENDC}.")
+            print(f"> Moving {bcolors.GREEN}{idx} | {self.db[section][j]['name']}{bcolors.ENDC} to {bcolors.GREEN}{dest}{bcolors.ENDC}.")
             del self.db[section][j]
+    
+    def delete(self, idx_s):
+        for idx in idx_s:
+            section = self._map(idx[0])
+            j = self._find(idx, section)
+            if j is None:
+                print("> No such task index.")
+            else:
+                print(f"> Deleting {bcolors.GREEN}{idx} | {self.db[section][j]['name']}{bcolors.ENDC}.")
+                del self.db[section][j]
+        self.update()
+
+    ###########################################################
 
     def print_la(self):
         for section in self.sections:
             if (section != 'done') and (section != 'deleted'):
                 self.printTable(section)
+        if self.config["show_done"] == True:
+            self.printTable('done')
         print()
     
     def __print_(self, section):

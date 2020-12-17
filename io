@@ -8,7 +8,7 @@ from util_people import *
 ## paths to the yaml files
 stuff_path  = '/Users/thomashsueh/Dev/io/stuff.yaml'
 people_path = '/Users/thomashsueh/Dev/io/people.yaml'
-
+config_path = '/Users/thomashsueh/Dev/io/config.yaml' 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="<< io: the ultimate productivity tool >>")
@@ -49,7 +49,10 @@ def parse_args():
     return parser.parse_args()
 
 def main():
-    stuff  = StuffDB (stuff_path, people_path)
+    with open(config_path) as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
+
+    stuff  = StuffDB (stuff_path, people_path, config)
     
     args = parse_args()
     
@@ -74,7 +77,7 @@ def main():
         else:
             stuff.print_la() # default
     elif args.mode == 'del':
-        print('move item in the stuff list to del')
+        stuff.delete(args.del_idx_s)
     elif args.mode == 'done':
         stuff.done(args.done_idx_s)
     elif args.mode == 'add':
