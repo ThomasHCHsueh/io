@@ -4,11 +4,7 @@ import yaml
 import argparse
 from util_stuff import *
 from util_people import *
-
-## paths to the yaml files
-stuff_path  = '/Users/thomashsueh/Dev/io/stuff.yaml'
-people_path = '/Users/thomashsueh/Dev/io/people.yaml'
-config_path = '/Users/thomashsueh/Dev/io/config.yaml' 
+from pathlib import Path
 
 def parse_args():
     parser = argparse.ArgumentParser(description="<< io: the ultimate productivity tool >>")
@@ -48,9 +44,17 @@ def parse_args():
 
     return parser.parse_args()
 
+def load_yaml(name):
+    path = Path(__file__).parent / f"{name}.yaml"
+    with path.open() as f:
+        res = yaml.load(f, Loader=yaml.FullLoader)
+    return res
+
 def main():
-    with open(config_path) as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
+    
+    config = load_yaml("config")
+    stuff_path  = Path(__file__).parent / "stuff.yaml"
+    people_path = Path(__file__).parent / "people.yaml"
 
     stuff  = StuffDB (stuff_path, people_path, config)
     
