@@ -72,6 +72,7 @@ class StuffDB:
             print("> No such task index.")
         else:
             self.db[dest].append(self.db[section][j])
+            print(f"> Moving {bcolors.GREEN}{self.db[section][j]['name']}{bcolors.ENDC} to {bcolors.GREEN}{dest}{bcolors.ENDC}.")
             del self.db[section][j]
 
     def print_la(self):
