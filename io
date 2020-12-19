@@ -18,6 +18,7 @@ def parse_args():
     add_parser  = ss.add_parser('add',  help='add task')
     lp_parser   = ss.add_parser('lp',   help='list people')
     addp_parser = ss.add_parser('addp', help='add people')
+    clean_parser = ss.add_parser('clean', help='empty the done section')
 
     nxt_parser.add_argument('avail', help='available time for the next task', type=int)
     
@@ -91,6 +92,8 @@ def main():
         stuff.lp()
     elif args.mode == 'addp':
         stuff.addp(args.addp_name, args.addp_ping_freq, args.addp_ping_last)
+    elif args.mode == 'clean':
+        stuff.clean()
 
 if __name__ == "__main__":
     main()

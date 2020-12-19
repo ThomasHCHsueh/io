@@ -207,3 +207,7 @@ class StuffDB:
             }
         self.people[name] = p
         self.update()
+
+    def clean(self):
+        self.db["done"] = []
+        self.update()
