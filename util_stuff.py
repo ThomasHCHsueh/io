@@ -182,7 +182,7 @@ class StuffDB:
 
             ## generate appointments to stuff; each ping takes 10 minutes
             for name, typ in zip(names, names_type):
-                self.add('a', f'Ping {name} ({typ})', 10)
+                self.add('a', f'Ping {name} ({typ})', 10, "NA")
 
             ## change ping_last to today, assuming the ping will always be carried out
             for name, typ in zip(names, names_type):
